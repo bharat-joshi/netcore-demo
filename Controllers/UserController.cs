@@ -1,4 +1,5 @@
-﻿using BlogApp.Dtos;
+﻿using AutoMapper;
+using BlogApp.Dtos;
 using BlogApp.Entity;
 using BlogApp.IService;
 using BlogApp.utility;
@@ -14,8 +15,11 @@ namespace BlogApp.Controllers
     {
 
         IUserService _userService;
-        public UserController(IUserService userService) {
+        IMapper _mapper;
+        public UserController(IUserService userService, IMapper mapper) {
             this._userService = userService;
+            this._mapper = mapper;
+
         }
 
         [HttpGet]
@@ -23,8 +27,8 @@ namespace BlogApp.Controllers
         {
 
             var data = await _userService.GetUsers();
-
-            return Ok(new Response(data,"ok",200));
+            var userdata = _mapper.Map<UserDto>(data);
+            return Ok(new Response(userdata, "ok",200));
             //return Ok(new Response(data,"done",200));
 
         }
@@ -36,6 +40,8 @@ namespace BlogApp.Controllers
             {
                 return BadRequest();
             }
+
+            var data = await _userService.AddUser(_mapper.Map<User>(userDto));
             return Ok();
         }
     }

@@ -12,9 +12,18 @@ namespace BlogApp.Service
         }
         public async Task<User> AddUser(User user)
         {
-            _blogDbContext.Users.Add(user);
-           await  _blogDbContext.SaveChangesAsync();
-            return user;
+            try
+            {
+                _blogDbContext.Users.Add(user);
+                await _blogDbContext.SaveChangesAsync();
+                return user;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
 
         public async Task<bool> DeleteUser(int id)
