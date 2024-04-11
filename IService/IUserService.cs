@@ -9,6 +9,6 @@ namespace BlogApp.IService
         Task<User> AddUser(User user);
         Task<User> UpdateUser(User user);
         Task<bool> DeleteUser(int id);
-        Task<User> Login(string username,string password);
+        Task<string> Login(string username,string password);
     }
 }
